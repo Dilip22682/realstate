@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+<section style="background: linear-gradient(135deg, #0F172A, #1E293B); padding: 60px 0;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 text-white">
+                <span class="badge bg-primary px-3 py-2 mb-3">All Properties</span>
+                <h1 class="fw-bold display-5 mb-2">Explore Properties</h1>
+                <p class="text-muted mb-0">Find your perfect home from our premium listings</p>
+            </div>
+            <div class="col-lg-6 text-lg-end mt-3 mt-lg-0">
+                <a href="/" class="btn btn-outline-light me-2">🏠 Home</a>
+                <a href="/properties/add/" class="btn btn-primary">+ Add Property</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- FILTER BAR -->
+<section class="bg-white shadow-sm py-3 sticky-top">
+    <div class="container">
+        <form method="GET" action="/properties/">
+            <div class="row g-2 align-items-center">
+
+                <div class="col-lg-4">
+                    <input type="text"
+                           name="search"
+                           value="{{ request.GET.search }}"
+                           class="form-control"
+                           placeholder="🔍 Search by location or title">
+                </div>
+
+                <div class="col-lg-3">
+                    <select name="type" class="form-select">
+                        <option value="">All Property Types</option>
+                        <option value="house"      {% if request.GET.type == 'house' %}selected{% endif %}>🏠 House</option>
+                        <option value="apartment"  {% if request.GET.type == 'apartment' %}selected{% endif %}>🏢 Apartment</option>
+                        <option value="villa"      {% if request.GET.type == 'villa' %}selected{% endif %}>🏡 Villa</option>
+                        <option value="commercial" {% if request.GET.type == 'commercial' %}selected{% endif %}>🏬 Commercial</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-3">
+                    <select name="price" class="form-select">
+                        <option value="">All Price Ranges</option>
+                        <option value="low"    {% if request.GET.price == 'low' %}selected{% endif %}>₹10L - ₹50L</option>
+                        <option value="mid"    {% if request.GET.price == 'mid' %}selected{% endif %}>₹50L - ₹1Cr</option>
+                        <option value="high"   {% if request.GET.price == 'high' %}selected{% endif %}>₹1Cr+</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-2">
+                    <button class="btn btn-dark w-100">Search</button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</section>
+
+
+<!-- RESULTS COUNT -->
+<section class="py-3 bg-light">
+    <div class="container">
+        <p class="text-muted mb-0">
+            Showing <strong>{{ properties|length }}</strong> properties
+        </p>
+    </div>
+</section>
+
+
+<!-- PROPERTIES GRID -->
+<section class="py-5 bg-light">
+    <div class="container">
+
+        {% if properties %}
+
+        <div class="row g-4">
+
+            {% for property in properties %}
+
+            <div class="col-lg-4 col-md-6">
+                <div class="card border-0 shadow-sm h-100"
+                     style="border-radius: 16px; overflow: hidden; transition: 0.3s;"
+                     onmouseover="this.style.transform='translateY(-8px)'"
+                     onmouseout="this.style.transform='translateY(0)'">
+
+                    <!-- IMAGE -->
+                    <div class="position-relative">
+                        {% if property.image %}
+                        <img src="{{ property.image.url }}"
+                             class="card-img-top"
+                             style="height: 240px; object-fit: cover;">
+                        {% else %}
+                        <div class="bg-secondary d-flex align-items-center justify-content-center"
+                             style="height: 240px;">
+                            <span class="text-white fs-1">🏠</span>
+                        </div>
+                        {% endif %}
+
+                        <!-- BADGE -->
+                        <span class="badge bg-primary position-absolute top-0 start-0 m-3 px-3 py-2">
+                            {{ property.property_type|capfirst }}
+                        </span>
+
+                        <!-- PRICE TAG -->
+                        <span class="badge bg-dark position-absolute bottom-0 end-0 m-3 px-3 py-2 fs-6">
+                            ₹ {{ property.price }}
+                        </span>
+                    </div>
+
+                    <!-- CARD BODY -->
+                    <div class="card-body p-4">
+
+                        <h5 class="fw-bold mb-1">{{ property.title }}</h5>
+
+                        <p class="text-muted small mb-3">
+                            📍 {{ property.location }}
+                        </p>
+
+                        <!-- FEATURES -->
+                        <div class="d-flex justify-content-between text-muted small mb-4"
+                             style="border-top: 1px solid #f0f0f0; padding-top: 12px;">
+                            <span>🛏 {{ property.bedrooms }} Beds</span>
+                            <span>🛁 {{ property.bathrooms }} Baths</span>
+                            <span>📐 {{ property.area }} sqft</span>
+                        </div>
+
+                        <!-- BUTTON -->
+                        <a href="/property/{{ property.id }}/"
+                           class="btn btn-dark w-100 rounded-3">
+                            View Details →
+                        </a>
+
+                    </div>
+
+                </div>
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+        <!-- NO PROPERTIES FOUND -->
+        <div class="text-center py-5">
+            <div style="font-size: 80px;">🏚️</div>
+            <h3 class="fw-bold mt-3">No Properties Found</h3>
+            <p class="text-muted">Try adjusting your search filters.</p>
+            <a href="/properties/" class="btn btn-primary px-4">Clear Filters</a>
+        </div>
+
+        {% endif %}
+
+    </div>
+</section>
+
+
+<!-- CTA -->
+<section class="py-5 text-white text-center"
+         style="background: linear-gradient(135deg, #2563EB, #1D4ED8);">
+    <div class="container">
+        <h3 class="fw-bold mb-2">Can't Find What You're Looking For?</h3>
+        <p class="mb-4">Contact our agents and we'll help you find your dream property.</p>
+        <a href="/contact/" class="btn btn-light btn-lg px-5">Contact Agent</a>
+    </div>
+</section>
+
+{% endblock %}

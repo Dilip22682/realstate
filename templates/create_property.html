@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card border-0 shadow-lg rounded-4">
+
+                <div class="card-body p-5">
+
+                    <div class="text-center mb-5">
+
+                        <h2 class="fw-bold">
+                            Add New Property
+                        </h2>
+
+                        <p class="text-muted">
+                            Fill property details professionally
+                        </p>
+
+                    </div>
+
+                    <form method="POST"
+                          enctype="multipart/form-data">
+
+                        {% csrf_token %}
+
+                        <!-- TITLE -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Property Title
+                            </label>
+
+                            {{ form.title }}
+
+                        </div>
+
+                        <!-- DESCRIPTION -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Description
+                            </label>
+
+                            {{ form.description }}
+
+                        </div>
+
+                        <!-- PRICE + LOCATION -->
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-4">
+
+                                <label class="form-label fw-semibold">
+                                    Price
+                                </label>
+
+                                {{ form.price }}
+
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+
+                                <label class="form-label fw-semibold">
+                                    Location
+                                </label>
+
+                                {{ form.location }}
+
+                            </div>
+
+                        </div>
+
+                        <!-- PROPERTY TYPE -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Property Type
+                            </label>
+
+                            {{ form.property_type }}
+
+                        </div>
+
+                        <!-- BEDROOMS / BATHROOMS / AREA -->
+
+                        <div class="row">
+
+                            <div class="col-md-4 mb-4">
+
+                                <label class="form-label fw-semibold">
+                                    Bedrooms
+                                </label>
+
+                                {{ form.bedrooms }}
+
+                            </div>
+
+                            <div class="col-md-4 mb-4">
+
+                                <label class="form-label fw-semibold">
+                                    Bathrooms
+                                </label>
+
+                                {{ form.bathrooms }}
+
+                            </div>
+
+                            <div class="col-md-4 mb-4">
+
+                                <label class="form-label fw-semibold">
+                                    Area (sqft)
+                                </label>
+
+                                {{ form.area }}
+
+                            </div>
+
+                        </div>
+
+                        <!-- IMAGE -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Upload Property Image
+                            </label>
+
+                            {{ form.image }}
+
+                        </div>
+
+                        <!-- BUTTON -->
+
+                        <button class="btn btn-success w-100 py-3 rounded-3">
+
+                            Save Property
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

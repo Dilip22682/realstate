@@ -1,0 +1,80 @@
+ body {
+    font-family: 'Poppins', sans-serif;
+    background: #F8FAFC;
+    color: #1E293B;
+}
+
+/* HERO SECTION */
+.hero-section {
+    background: linear-gradient(
+        rgba(15, 23, 42, 0.75),
+        rgba(15, 23, 42, 0.75)
+    ),
+    url('/static/images/hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+}
+
+/* PROPERTY CARD */
+.property-card {
+    border-radius: 20px;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.property-card:hover {
+    transform: translateY(-10px);
+}
+
+.property-image {
+    height: 280px;
+    object-fit: cover;
+}
+
+/* FEATURE BOX */
+.feature-box {
+    transition: 0.3s;
+    background: white;
+}
+
+.feature-box:hover {
+    transform: translateY(-8px);
+}
+
+/* STATS SECTION */
+.stats-section {
+    background: linear-gradient(135deg, #0F172A, #1E293B);
+}
+
+/* CTA SECTION */
+.cta-section {
+    background: linear-gradient(135deg, #2563EB, #1D4ED8);
+}
+
+/* BUTTONS */
+.btn-primary {
+    background: #2563EB;
+    border: none;
+}
+
+.btn-primary:hover {
+    background: #1D4ED8;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .hero-section h1 {
+        font-size: 42px;
+    }
+
+    .hero-section {
+        text-align: center;
+    }
+}
+
+/* DASHBOARD */
+.dashboard-header {
+    background: linear-gradient(135deg, #0F172A, #1E293B);
+}

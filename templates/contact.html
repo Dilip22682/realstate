@@ -1,0 +1,228 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+<section style="background: linear-gradient(135deg, #0F172A, #1E293B); padding: 60px 0;">
+    <div class="container">
+        <div class="text-white text-center">
+            <span class="badge bg-primary px-3 py-2 mb-3">Get In Touch</span>
+            <h1 class="fw-bold display-5 mb-2">Contact Us</h1>
+            <p class="text-muted">We're here to help you find your dream property</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- CONTACT SECTION -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row g-4">
+
+            <!-- CONTACT FORM -->
+            <div class="col-lg-7">
+                <div class="card border-0 shadow-sm p-4 p-lg-5" style="border-radius: 16px;">
+
+                    <h4 class="fw-bold mb-1">Send Us a Message</h4>
+                    <p class="text-muted mb-4">Fill out the form and we'll get back to you shortly.</p>
+
+                    {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-success alert-dismissible fade show">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form method="POST" action="/contact/">
+                        {% csrf_token %}
+
+                        <div class="row g-3">
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Full Name</label>
+                                <input type="text"
+                                       name="name"
+                                       class="form-control form-control-lg"
+                                       placeholder="Dilip Patel"
+                                       required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Email Address</label>
+                                <input type="email"
+                                       name="email"
+                                       class="form-control form-control-lg"
+                                       placeholder="dilippatel372001@gmail.com"
+                                       required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Phone Number</label>
+                                <input type="tel"
+                                       name="phone"
+                                       class="form-control form-control-lg"
+                                       placeholder="+91 8858479389">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Subject</label>
+                                <select name="subject" class="form-select form-select-lg">
+                                    <option value="">Select Subject</option>
+                                    <option value="buying">Buying a Property</option>
+                                    <option value="selling">Selling a Property</option>
+                                    <option value="renting">Renting a Property</option>
+                                    <option value="general">General Enquiry</option>
+                                </select>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Message</label>
+                                <textarea name="message"
+                                          class="form-control"
+                                          rows="5"
+                                          placeholder="Tell us how we can help you..."
+                                          required></textarea>
+                            </div>
+
+                            <div class="col-12">
+                                <button type="submit"
+                                        class="btn btn-primary btn-lg w-100 rounded-3">
+                                    Send Message 📨
+                                </button>
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+
+            <!-- CONTACT DETAILS -->
+            <div class="col-lg-5">
+
+                <!-- INFO CARDS -->
+                <div class="card border-0 shadow-sm p-4 mb-4" style="border-radius: 16px;">
+                    <h5 class="fw-bold mb-4">Contact Information</h5>
+
+                    <div class="d-flex align-items-start mb-4">
+                        <div class="bg-primary text-white rounded-3 p-3 me-3 fs-4">📍</div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Office Address</h6>
+                            <p class="text-muted mb-0">
+                                2457 Real Estate Avenue,<br>
+                                Mohali, Punjab ,160071<br>
+                                India
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-start mb-4">
+                        <div class="bg-success text-white rounded-3 p-3 me-3 fs-4">📞</div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Phone Number</h6>
+                            <p class="text-muted mb-0">
+                                +91 88584 79389<br>
+                                +91 70804 56432
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-start mb-4">
+                        <div class="bg-warning text-white rounded-3 p-3 me-3 fs-4">✉️</div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Email Address</h6>
+                            <p class="text-muted mb-0">
+                                dilip@realestate.com<br>
+                                support@realestate.com
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-start">
+                        <div class="bg-danger text-white rounded-3 p-3 me-3 fs-4">🕐</div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Working Hours</h6>
+                            <p class="text-muted mb-0">
+                                Mon - Fri: 9:00 AM - 6:00 PM<br>
+                                Sat: 10:00 AM - 4:00 PM<br>
+                                Sun: Closed
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- SOCIAL MEDIA -->
+                <div class="card border-0 shadow-sm p-4 mb-4" style="border-radius: 16px;">
+                    <h5 class="fw-bold mb-3">Follow Us</h5>
+                    <div class="d-flex gap-2">
+                        <a href="#" class="btn btn-outline-primary flex-fill">Facebook</a>
+                        <a href="#" class="btn btn-outline-danger flex-fill">Instagram</a>
+                        <a href="#" class="btn btn-outline-info flex-fill">Twitter</a>
+                    </div>
+                </div>
+
+                <!-- WHATSAPP -->
+                <a href="https://wa.me/919876543210"
+                   target="_blank"
+                   class="btn btn-success btn-lg w-100 rounded-3"
+                   style="border-radius: 16px !important;">
+                    💬 Chat on WhatsApp
+                </a>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- MAP SECTION -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <h4 class="fw-bold text-center mb-4">📍 Find Us On Map</h4>
+        <div style="border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3431.5!2d76.7179!3d30.6436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390feeee08d15737:0x6d119cedea5d7247!2sSector+71%2C+Sahibzada+Ajit+Singh+Nagar%2C+Punjab+160071!5e0!3m2!1sen!2sin!4v1716394800000"
+                width="100%"
+                height="450"
+                style="border: 0;"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+
+        </div>
+
+        <!-- ADDRESS BELOW MAP -->
+        <div class="text-center mt-4">
+            <p class="text-muted">
+                📍 <strong>Sector 71, Sahibzada Ajit Singh Nagar (Mohali), Punjab 160071, India</strong>
+            </p>
+            <a href="https://maps.app.goo.gl/QCzKHu999isFnPMw5"
+               target="_blank"
+               class="btn btn-outline-dark rounded-3">
+                Open in Google Maps →
+            </a>
+        </div>
+        
+    </div>
+</section>
+
+
+<!-- CTA -->
+<section class="py-5 text-white text-center"
+         style="background: linear-gradient(135deg, #2563EB, #1D4ED8);">
+    <div class="container">
+        <h3 class="fw-bold mb-2">Ready To Find Your Dream Property?</h3>
+        <p class="mb-4">Browse our premium listings and connect with trusted agents.</p>
+        <a href="/properties/" class="btn btn-light btn-lg px-5">Browse Properties</a>
+    </div>
+</section>
+
+{% endblock %}
