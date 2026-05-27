@@ -165,40 +165,43 @@ def create_property(request):
 
  
 @login_required(login_url='/login/')
-def update_property(request, id):
+def update_property(request, pk):
+    
+    property_obj = get_object_or_404(Property, pk=pk, owner=request.user)
 
-    property_obj = get_object_or_404(
-        Property,
-        id=id
-    )
+    if request.method == 'POST':
+        form = PropertyForm(
+            request.POST,
+            request.FILES,
+            instance=property_obj
+        )
 
-    form = PropertyForm(
-        request.POST or None,
-        request.FILES or None,
-        instance=property_obj
-    )
+        if form.is_valid():
+            property_obj = form.save(commit=False)
+            property_obj.owner = request.user  # ✅ was created_by, now owner
+            property_obj.save()
+            return redirect('/dashboard/')
+        
+        else:
+            print(f"❌ Form errors: {form.errors}")
 
-    if form.is_valid():
+    else:
+        form = PropertyForm(instance=property_obj)
 
-        form.save()
-
-        return redirect('/dashboard/')
-
-    return render(
-        request,
-        'update_property.html',
-        {'form': form}
-    )
+    return render(request, 'update_property.html', {
+        'form': form,
+        'property': property_obj
+    })
 
 
 # DELETE PROPERTY
 
 @login_required(login_url='/login/')
-def delete_property(request, id):
+def delete_property(request, pk):
 
     property_obj = get_object_or_404(
         Property,
-        id=id
+        id=pk
     )
 
     property_obj.delete()
@@ -222,3 +225,8 @@ def contact(request):
         return redirect('/contact/')
 
     return render(request, 'contact.html')
+
+
+# views.py
+def about(request):
+    return render(request, 'about.html')

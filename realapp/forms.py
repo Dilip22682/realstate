@@ -62,7 +62,7 @@ class PropertyForm(forms.ModelForm):
 
         model = Property
 
-        exclude = ['created_by']
+        exclude = ['owner']
 
         widgets = {
 

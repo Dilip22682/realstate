@@ -12,6 +12,7 @@ from .views import (
     update_property,
     delete_property,
     contact,
+    about
 )
 
 urlpatterns = [
@@ -32,8 +33,16 @@ urlpatterns = [
 
     path('create-property/', create_property, name='create_property'),
 
-    path('update-property/<int:id>/', update_property, name='update_property'),
+    path('property/<int:pk>/edit/',update_property,name='update_property'),
 
-    path('delete-property/<int:id>/', delete_property, name='delete_property'),
+    path('property/<int:pk>/delete/',delete_property,name='delete_property'),
+
     path('contact/',contact, name='contact'),
+ 
+    path('about/',about, name='about'),
+    
+
 ]
+
+
+ 
