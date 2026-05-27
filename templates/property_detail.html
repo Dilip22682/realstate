@@ -1,50 +1,305 @@
- 
+
+
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 
-<div class="row">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/properties.css' %}">
 
-    <div class="col-md-6">
+<style>
+  /* ── DETAIL PAGE ── */
+  .detail-wrapper {
+    background: var(--cream);
+    min-height: 100vh;
+    padding: 3rem 0 5rem;
+  }
 
-        <img src="{{ property.image.url }}"
-             class="img-fluid rounded shadow">
+  /* Breadcrumb */
+  .detail-breadcrumb {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-bottom: 1.8rem;
+  }
+  .detail-breadcrumb a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .detail-breadcrumb a:hover { color: var(--charcoal); }
+  .detail-breadcrumb span { margin: 0 6px; }
 
+  /* Image */
+  .detail-img-wrap {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+    background: #e8e3db;
+    aspect-ratio: 4/3;
+  }
+  .detail-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  .detail-img-wrap:hover img { transform: scale(1.03); }
+  .detail-img-wrap .badge-type {
+    position: absolute;
+    top: 16px; left: 16px;
+    background: var(--charcoal);
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.9rem;
+    border-radius: 20px;
+  }
+
+  /* Info Panel */
+  .detail-panel {
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .detail-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: var(--charcoal);
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+    line-height: 1.1;
+  }
+
+  .detail-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--charcoal);
+    margin-bottom: 0.4rem;
+  }
+
+  .detail-location {
+    font-size: 0.88rem;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* Quick stats row */
+  .detail-stats {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.8rem;
+    flex-wrap: wrap;
+  }
+  .stat-chip {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.6rem 1rem;
+    text-align: center;
+    flex: 1;
+    min-width: 80px;
+  }
+  .stat-chip .stat-icon { font-size: 1.2rem; display: block; margin-bottom: 2px; }
+  .stat-chip .stat-value {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--charcoal);
+    display: block;
+  }
+  .stat-chip .stat-label {
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* Description */
+  .detail-desc-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+  .detail-desc {
+    font-size: 0.93rem;
+    color: #444;
+    line-height: 1.75;
+    margin-bottom: 2rem;
+  }
+
+  /* Divider */
+  .detail-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 1.5rem 0;
+  }
+
+  /* CTA Buttons */
+  .btn-contact {
+    background: var(--charcoal);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 0.85rem 1.5rem;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.03em;
+    transition: background 0.2s, transform 0.15s;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+  }
+  .btn-contact:hover {
+    background: #333;
+    color: #fff;
+    transform: translateY(-1px);
+  }
+  .btn-back {
+    background: transparent;
+    color: var(--charcoal);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 0.85rem 1.5rem;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-back:hover {
+    border-color: var(--charcoal);
+    background: var(--charcoal);
+    color: #fff;
+  }
+
+  /* Gold accent bar */
+  .gold-bar {
+    width: 48px;
+    height: 3px;
+    background: var(--gold);
+    border-radius: 2px;
+    margin-bottom: 1.2rem;
+  }
+
+  /* Fade in */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    animation: fadeUp 0.55s forwards;
+  }
+  .fade-up-2 { animation-delay: 0.15s; }
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+
+<div class="detail-wrapper">
+  <div class="container">
+
+    <!-- Breadcrumb -->
+    <div class="detail-breadcrumb">
+      <a href="/">Home</a>
+      <span>›</span>
+      <a href="{% url 'properties' %}">Properties</a>
+      <span>›</span>
+      {{ property.title }}
     </div>
 
-    <div class="col-md-6">
+    <div class="row g-5 align-items-start">
 
-        <h2>
-            {{ property.title }}
-        </h2>
+      <!-- ── LEFT: Image ── -->
+      <div class="col-lg-6 fade-up">
+        <div class="detail-img-wrap">
+          {% if property.image %}
+            <img src="{{ property.image.url }}" alt="{{ property.title }}">
+          {% else %}
+            <img src="https://placehold.co/800x600/e8e3db/7a7a7a?text=No+Image" alt="No image">
+          {% endif %}
+          <span class="badge-type">{{ property.type|capfirst }}</span>
+        </div>
+      </div>
 
-        <h3 class="text-success">
-            ₹ {{ property.price }}
-        </h3>
+      <!-- ── RIGHT: Info ── -->
+      <div class="col-lg-6 fade-up fade-up-2">
+        <div class="detail-panel">
 
-        <p>
-            {{ property.description }}
-        </p>
+          <div class="gold-bar"></div>
 
-        <ul class="list-group">
+          <div class="detail-price">₹ {{ property.price }}</div>
+          <div class="detail-title">{{ property.title }}</div>
 
-            <li class="list-group-item">
-                Bedrooms: {{ property.bedrooms }}
-            </li>
+          {% if property.location %}
+          <div class="detail-location">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            {{ property.location }}
+          </div>
+          {% endif %}
 
-            <li class="list-group-item">
-                Bathrooms: {{ property.bathrooms }}
-            </li>
+          <hr class="detail-divider">
 
-            <li class="list-group-item">
-                Area: {{ property.area }} sqft
-            </li>
+          <!-- Quick Stats -->
+          <div class="detail-stats">
+            {% if property.bedrooms %}
+            <div class="stat-chip">
+              <span class="stat-icon">🛏</span>
+              <span class="stat-value">{{ property.bedrooms }}</span>
+              <span class="stat-label">Bedroom{{ property.bedrooms|pluralize }}</span>
+            </div>
+            {% endif %}
+            {% if property.bathrooms %}
+            <div class="stat-chip">
+              <span class="stat-icon">🚿</span>
+              <span class="stat-value">{{ property.bathrooms }}</span>
+              <span class="stat-label">Bathroom{{ property.bathrooms|pluralize }}</span>
+            </div>
+            {% endif %}
+            {% if property.area %}
+            <div class="stat-chip">
+              <span class="stat-icon">📐</span>
+              <span class="stat-value">{{ property.area }}</span>
+              <span class="stat-label">sq.ft</span>
+            </div>
+            {% endif %}
+          </div>
 
-        </ul>
+          <!-- Description -->
+          {% if property.description %}
+          <div class="detail-desc-label">About this property</div>
+          <div class="detail-desc">{{ property.description }}</div>
+          {% endif %}
+
+          <!-- CTA Buttons -->
+          <div class="d-flex gap-3 flex-wrap">
+            <a href="mailto:contact@youremail.com" class="btn-contact flex-fill">
+              📩 Contact Agent
+            </a>
+            <a href="{% url 'properties' %}" class="btn-back flex-fill">
+              ← Back to Listings
+            </a>
+          </div>
+
+        </div>
+      </div>
 
     </div>
-
+  </div>
 </div>
 
-{% endblock %}
- 
+{% endblock %}  
