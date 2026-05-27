@@ -6,6 +6,9 @@ from .models import User, Property
 
 
 # REGISTER FORM
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from .models import User
 
 class RegisterForm(UserCreationForm):
 
@@ -14,7 +17,6 @@ class RegisterForm(UserCreationForm):
         model = User
 
         fields = [
-
             'username',
             'email',
             'phone',
@@ -53,6 +55,19 @@ class RegisterForm(UserCreationForm):
             ),
         }
 
+    def __init__(self, *args, **kwargs):
+
+        super().__init__(*args, **kwargs)
+
+        self.fields['password1'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Enter password'
+        })
+
+        self.fields['password2'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Confirm password'
+        })
 
 # PROPERTY FORM
 

@@ -1190,3 +1190,311 @@ a {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+
+/* Properties.html */
+
+/* ── CSS VARIABLES ── */
+:root {
+    --cream: #f7f4ef;
+    --charcoal: #1c1c1e;
+    --gold: #c9a84c;
+    --muted: #7a7a7a;
+    --card-bg: #ffffff;
+    --border: #e8e3db;
+}
+
+/* ── BASE ── */
+body {
+    background: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+}
+
+/* ── SEARCH BAR ── */
+.search-section {
+    background: var(--charcoal);
+    padding: 2.5rem 0;
+}
+
+.search-section .form-control,
+.search-section .form-select {
+    background: #2a2a2c;
+    border: 1px solid #3a3a3c;
+    color: #fff;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    padding: 0.75rem 1rem;
+}
+
+.search-section .form-control::placeholder {
+    color: #888;
+}
+
+.search-section .form-select option {
+    background: #2a2a2c;
+}
+
+.search-section .form-control:focus,
+.search-section .form-select:focus {
+    background: #2a2a2c;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.15);
+    color: #fff;
+}
+
+.btn-search {
+    background: var(--gold);
+    color: var(--charcoal);
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 0.03em;
+    transition: background 0.2s, transform 0.15s;
+}
+
+.btn-search:hover {
+    background: #b8933e;
+    transform: translateY(-1px);
+}
+
+/* ── PAGE HEADER ── */
+.page-header {
+    padding: 3rem 0 1.5rem;
+}
+
+.page-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    color: var(--charcoal);
+    margin-bottom: 0.25rem;
+}
+
+.page-header p {
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+.result-count {
+    background: var(--charcoal);
+    color: var(--gold);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.85rem;
+    border-radius: 20px;
+    display: inline-block;
+    margin-top: 0.5rem;
+}
+
+/* ── PROPERTY CARDS ── */
+.properties-grid {
+    padding-bottom: 4rem;
+}
+
+.property-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: transform 0.25s, box-shadow 0.25s;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.property-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.10);
+}
+
+/* ── CARD IMAGE ── */
+.card-img-wrap {
+    position: relative;
+    height: 210px;
+    overflow: hidden;
+    background: #e8e3db;
+}
+
+.card-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.property-card:hover .card-img-wrap img {
+    transform: scale(1.05);
+}
+
+/* ── BADGES ── */
+.badge-type {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: var(--charcoal);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.75rem;
+    border-radius: 20px;
+}
+
+.badge-status {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--gold);
+    color: var(--charcoal);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.75rem;
+    border-radius: 20px;
+}
+
+/* ── CARD BODY ── */
+.card-body-custom {
+    padding: 1.25rem 1.4rem 1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.prop-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.45rem;
+    color: var(--charcoal);
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+}
+
+.prop-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    margin-bottom: 0.2rem;
+}
+
+.prop-location {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-bottom: 1rem;
+}
+
+.prop-location svg {
+    vertical-align: -2px;
+    margin-right: 3px;
+}
+
+.prop-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--border);
+    margin-top: auto;
+}
+
+.prop-meta span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* ── VIEW BUTTON ── */
+.btn-view {
+    display: block;
+    text-align: center;
+    margin: 0.85rem 1.4rem 1.2rem;
+    padding: 0.6rem;
+    border: 1.5px solid var(--charcoal);
+    border-radius: 8px;
+    color: var(--charcoal);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    transition: background 0.2s, color 0.2s;
+}
+
+.btn-view:hover {
+    background: var(--charcoal);
+    color: #fff;
+}
+
+/* ── EMPTY STATE ── */
+.empty-state {
+    text-align: center;
+    padding: 5rem 1rem;
+    color: var(--muted);
+}
+
+.empty-state .icon {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    opacity: 0.4;
+}
+
+.empty-state h4 {
+    font-family: 'Playfair Display', serif;
+    color: var(--charcoal);
+    margin-bottom: 0.4rem;
+}
+
+/* ── PAGINATION ── */
+.pagination .page-link {
+    color: var(--charcoal);
+    border-color: var(--border);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    border-radius: 8px !important;
+    margin: 0 2px;
+    transition: background 0.15s;
+}
+
+.pagination .page-item.active .page-link {
+    background: var(--charcoal);
+    border-color: var(--charcoal);
+    color: #fff;
+}
+
+.pagination .page-link:hover {
+    background: var(--border);
+    color: var(--charcoal);
+}
+
+/* ── FADE-IN ANIMATION ── */
+.fade-up {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.5s forwards;
+}
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Card stagger delays (up to 12 cards) */
+.card-anim-1  { animation-delay: 0ms; }
+.card-anim-2  { animation-delay: 100ms; }
+.card-anim-3  { animation-delay: 200ms; }
+.card-anim-4  { animation-delay: 300ms; }
+.card-anim-5  { animation-delay: 400ms; }
+.card-anim-6  { animation-delay: 500ms; }
+.card-anim-7  { animation-delay: 600ms; }
+.card-anim-8  { animation-delay: 700ms; }
+.card-anim-9  { animation-delay: 800ms; }
+.card-anim-10 { animation-delay: 900ms; }
+.card-anim-11 { animation-delay: 1000ms; }
+.card-anim-12 { animation-delay: 1100ms; }

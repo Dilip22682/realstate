@@ -122,10 +122,7 @@ def property_list(request):
 
 def property_detail(request, id):
 
-    property_obj = get_object_or_404(
-        Property,
-        id=id
-    )
+    property_obj = get_object_or_404(Property,id=id)
 
     return render(
         request,
@@ -161,9 +158,7 @@ def create_property(request):
 
     return render(request,'create_property.html',{'form': form})
 
-# UPDATE PROPERTY
-
- 
+# UPDATE PROPERTY 
 @login_required(login_url='/login/')
 def update_property(request, pk):
     
@@ -230,3 +225,28 @@ def contact(request):
 # views.py
 def about(request):
     return render(request, 'about.html')
+
+
+#Search box
+def properties(request):
+    queryset = Property.objects.all()
+
+    search = request.GET.get('search')
+    prop_type = request.GET.get('type')
+    price = request.GET.get('price')
+    print(search,prop_type,price)
+
+    if search:
+        queryset = queryset.filter(location__icontains=search)
+
+    if prop_type:
+        queryset = queryset.filter(type=prop_type)
+
+    if price == '10-50':
+        queryset = queryset.filter(price__gte=1000000, price__lte=5000000)
+    elif price == '50-100':
+        queryset = queryset.filter(price__gte=5000000, price__lte=10000000)
+    elif price == '100+':
+        queryset = queryset.filter(price__gte=10000000)
+
+    return render(request, 'properties.html', {'properties': queryset})

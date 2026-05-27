@@ -1,0 +1,168 @@
+{% load static %}
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- Properties Stylesheet -->
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+
+<!-- ── SEARCH SECTION ── -->
+<section class="search-section">
+  <div class="container">
+    <form method="GET" action="/properties/">
+      <div class="row g-3 align-items-center">
+
+        <div class="col-lg-3">
+          <input type="text"
+                 name="search"
+                 class="form-control form-control-lg"
+                 placeholder="🔍  Search location"
+                 value="{{ request.GET.search }}">
+        </div>
+
+        <div class="col-lg-3">
+          <select name="type" class="form-select form-select-lg">
+            <option value="">Property Type</option>
+            <option value="house"     {% if request.GET.type == 'house'     %}selected{% endif %}>House</option>
+            <option value="apartment" {% if request.GET.type == 'apartment' %}selected{% endif %}>Apartment</option>
+            <option value="villa"     {% if request.GET.type == 'villa'     %}selected{% endif %}>Villa</option>
+          </select>
+        </div>
+
+        <div class="col-lg-3">
+          <select name="price" class="form-select form-select-lg">
+            <option value="">Price Range</option>
+            <option value="10-50"  {% if request.GET.price == '10-50'  %}selected{% endif %}>₹10L – ₹50L</option>
+            <option value="50-100" {% if request.GET.price == '50-100' %}selected{% endif %}>₹50L – ₹1Cr</option>
+            <option value="100+"   {% if request.GET.price == '100+'   %}selected{% endif %}>₹1Cr+</option>
+          </select>
+        </div>
+
+        <div class="col-lg-3">
+          <button type="submit" class="btn btn-search w-100 btn-lg">
+            Search Properties
+          </button>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</section>
+
+
+<!-- ── PAGE HEADER ── -->
+<div class="container page-header">
+  <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+    <div>
+      <h1>Properties</h1>
+      <p>Discover your perfect space</p>
+    </div>
+    <span class="result-count">{{ properties|length }} result{{ properties|length|pluralize }}</span>
+  </div>
+</div>
+
+
+<!-- ── PROPERTIES GRID ── -->
+<div class="container properties-grid">
+
+  {% if properties %}
+    <div class="row g-4">
+      {% for property in properties %}
+
+      <div class="col-md-6 col-lg-4 fade-up">         <!-- ✅ single clean opening tag -->
+        <div class="property-card">
+
+          <!-- Image -->
+          <div class="card-img-wrap">
+            {% if property.image %}
+              <img src="{{ property.image.url }}" alt="{{ property.title }}">
+            {% else %}
+              <img src="https://placehold.co/600x400/e8e3db/7a7a7a?text=No+Image" alt="No image">
+            {% endif %}
+            <span class="badge-type">{{ property.type|capfirst }}</span>
+            <span class="badge-status">For Sale</span>
+          </div>
+
+          <!-- Body -->
+          <div class="card-body-custom">
+            <div class="prop-price">₹{{ property.price }}</div>
+            <div class="prop-title">{{ property.title }}</div>
+            <div class="prop-location">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+              {{ property.location }}
+            </div>
+
+            <div class="prop-meta">
+              {% if property.bedrooms %}
+              <span>🛏 {{ property.bedrooms }} Bed{{ property.bedrooms|pluralize }}</span>
+              {% endif %}
+              {% if property.bathrooms %}
+              <span>🚿 {{ property.bathrooms }} Bath{{ property.bathrooms|pluralize }}</span>
+              {% endif %}
+              {% if property.area %}
+              <span>📐 {{ property.area }} sq.ft</span>
+              {% endif %}
+            </div>
+          </div>
+
+          <a href="/properties/{{ property.id }}/" class="btn-view">View Details →</a>
+
+        </div>
+      </div>                                           <!-- ✅ single clean closing tag -->
+
+      {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if properties.has_other_pages %}
+    <div class="d-flex justify-content-center mt-5">
+      <nav>
+        <ul class="pagination">
+          {% if properties.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ properties.previous_page_number }}&search={{ request.GET.search }}&type={{ request.GET.type }}&price={{ request.GET.price }}">‹ Prev</a>
+            </li>
+          {% endif %}
+          {% for num in properties.paginator.page_range %}
+            <li class="page-item {% if properties.number == num %}active{% endif %}">
+              <a class="page-link" href="?page={{ num }}&search={{ request.GET.search }}&type={{ request.GET.type }}&price={{ request.GET.price }}">{{ num }}</a>
+            </li>
+          {% endfor %}
+          {% if properties.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ properties.next_page_number }}&search={{ request.GET.search }}&type={{ request.GET.type }}&price={{ request.GET.price }}">Next ›</a>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+    {% endif %}
+
+  {% else %}
+    <!-- Empty state -->
+    <div class="empty-state">
+      <div class="icon">🏠</div>
+      <h4>No properties found</h4>
+      <p>Try adjusting your search filters or check back later.</p>
+      <a href="/properties/" class="btn btn-dark mt-3 px-4">Clear Filters</a>
+    </div>
+  {% endif %}
+
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+  document.querySelectorAll('.fade-up').forEach((card, index) => {
+    card.style.animationDelay = `${index * 100}ms`;
+  });
+</script>
+{% endblock %}

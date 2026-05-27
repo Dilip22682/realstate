@@ -12,7 +12,8 @@ from .views import (
     update_property,
     delete_property,
     contact,
-    about
+    about,
+    properties,
 )
 
 urlpatterns = [
@@ -40,6 +41,7 @@ urlpatterns = [
     path('contact/',contact, name='contact'),
  
     path('about/',about, name='about'),
+    path('properties/',properties, name='properties'),
     
 
 ]
