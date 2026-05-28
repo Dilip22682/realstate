@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container my-5">
+  <h2 class="fw-bold mb-4">My Bookings</h2>
+
+  {% if bookings %}
+  <div class="table-responsive">
+    <table class="table table-bordered align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th>Property</th>
+          <th>Visit Date</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Booked On</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for booking in bookings %}
+        <tr>
+          <td>
+            <a href="{% url 'property_detail' booking.property.id %}">
+              {{ booking.property.title }}
+            </a>
+          </td>
+          <td>{{ booking.date }}</td>
+          <td>{{ booking.phone }}</td>
+          <td>{{ booking.email }}</td>
+          <td>
+            {% if booking.status == 'confirmed' %}
+              <span class="badge bg-success">Confirmed</span>
+            {% elif booking.status == 'cancelled' %}
+              <span class="badge bg-danger">Cancelled</span>
+            {% elif booking.status == 'completed' %}
+              <span class="badge bg-primary">Completed</span>
+            {% else %}
+              <span class="badge bg-warning text-dark">Pending</span>
+            {% endif %}
+          </td>
+          <td>{{ booking.created_at|date:"d M Y" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% else %}
+    <div class="text-center py-5">
+      <h5>You have no bookings yet.</h5>
+      <a href="{% url 'property_list' %}" class="btn btn-dark mt-3">Browse Properties</a>
+    </div>
+  {% endif %}
+
+</div>
+{% endblock %}

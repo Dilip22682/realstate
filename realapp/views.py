@@ -1,8 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from .models import Property, Booking
-from .forms import RegisterForm, PropertyForm
+from .forms import RegisterForm, PropertyForm,BookingForm
 from django.contrib import messages 
-
+from django.core.paginator import Paginator
 from django.shortcuts import (
     render,
     redirect,
@@ -105,31 +105,68 @@ def dashboard(request):
     return render(request, 'dashboard.html', context)
 
 
-# PROPERTY LIST PAGE
+
+
+#property list and search box
+
 
 def property_list(request):
+    qs = Property.objects.all().order_by('-id')
 
-    properties = Property.objects.all()
+    search    = request.GET.get('search', '').strip()
+    prop_type = request.GET.get('type', '').strip()
+    price     = request.GET.get('price', '').strip()
 
-    return render(
-        request,
-        'property_list.html',
-        {'properties': properties}
-    )
+    if search:
+        qs = qs.filter(location__icontains=search)
+
+    if prop_type:
+        qs = qs.filter(property_type=prop_type)
+
+    if price:
+        price_ranges = {
+            'low':  (1_000_000,  5_000_000),
+            'mid':  (5_000_000,  10_000_000),
+            'high': (10_000_000, None),
+        }
+        if price in price_ranges:
+            low_val, high_val = price_ranges[price]
+            qs = qs.filter(price__gte=low_val)
+            if high_val:
+                qs = qs.filter(price__lte=high_val)
+
+    paginator  = Paginator(qs, 9)
+    page_num   = request.GET.get('page', 1)
+    properties = paginator.get_page(page_num)
+
+    return render(request, 'property_list.html', {
+        'properties': properties,
+    })
 
 
-# PROPERTY DETAIL PAGE
-
+# PROPERTY DETAIL + BOOKING
 def property_detail(request, id):
+    property_obj = get_object_or_404(Property, id=id)
+    form         = BookingForm()
 
-    property_obj = get_object_or_404(Property,id=id)
+    if request.method == 'POST':
+        if not request.user.is_authenticated:
+            messages.warning(request, 'Please log in to book a property.')
+            return redirect('login')
 
-    return render(
-        request,
-        'property_detail.html',
-        {'property': property_obj}
-    )
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            booking          = form.save(commit=False)
+            booking.property = property_obj
+            booking.user     = request.user
+            booking.save()
+            messages.success(request, '✅ Booking submitted! We will contact you shortly.')
+            return redirect('property_detail', id=id)
 
+    return render(request, 'property_detail.html', {
+        'property': property_obj,
+        'form':     form,
+    })
 
 #Property create
 @login_required(login_url='/login/')
@@ -227,26 +264,36 @@ def about(request):
     return render(request, 'about.html')
 
 
-#Search box
-def properties(request):
-    queryset = Property.objects.all()
+# #Search box
+# def properties(request):
+#     queryset = Property.objects.all()
 
-    search = request.GET.get('search')
-    prop_type = request.GET.get('type')
-    price = request.GET.get('price')
-    print(search,prop_type,price)
+#     search = request.GET.get('search')
+#     prop_type = request.GET.get('type')
+#     price = request.GET.get('price')
+#     print(search,prop_type,price)
 
-    if search:
-        queryset = queryset.filter(location__icontains=search)
+#     if search:
+#         queryset = queryset.filter(location__icontains=search)
 
-    if prop_type:
-        queryset = queryset.filter(type=prop_type)
+#     if prop_type:
+#         queryset = queryset.filter(type=prop_type)
 
-    if price == '10-50':
-        queryset = queryset.filter(price__gte=1000000, price__lte=5000000)
-    elif price == '50-100':
-        queryset = queryset.filter(price__gte=5000000, price__lte=10000000)
-    elif price == '100+':
-        queryset = queryset.filter(price__gte=10000000)
+#     if price == '10-50':
+#         queryset = queryset.filter(price__gte=1000000, price__lte=5000000)
+#     elif price == '50-100':
+#         queryset = queryset.filter(price__gte=5000000, price__lte=10000000)
+#     elif price == '100+':
+#         queryset = queryset.filter(price__gte=10000000)
 
-    return render(request, 'properties.html', {'properties': queryset})
+#     return render(request, 'properties.html', {'properties': queryset})
+
+
+
+# ── My Bookings ──────────────────────────────────────────
+@login_required
+def my_bookings(request):
+    bookings = Booking.objects.filter(user=request.user)
+    return render(request, 'my_bookings.html', {
+        'bookings': bookings,
+    })

@@ -28,29 +28,28 @@
             <div class="row g-2 align-items-center">
 
                 <div class="col-lg-4">
-                    <input type="text"
-                           name="search"
-                           value="{{ request.GET.search }}"
-                           class="form-control"
-                           placeholder="🔍 Search by location or title">
+                    <input type="text" name="search" value="{{ request.GET.search }}" class="form-control"
+                        placeholder="🔍 Search by location or title">
                 </div>
 
                 <div class="col-lg-3">
                     <select name="type" class="form-select">
                         <option value="">All Property Types</option>
-                        <option value="house"      {% if request.GET.type == 'house' %}selected{% endif %}>🏠 House</option>
-                        <option value="apartment"  {% if request.GET.type == 'apartment' %}selected{% endif %}>🏢 Apartment</option>
-                        <option value="villa"      {% if request.GET.type == 'villa' %}selected{% endif %}>🏡 Villa</option>
-                        <option value="commercial" {% if request.GET.type == 'commercial' %}selected{% endif %}>🏬 Commercial</option>
+                        <option value="house" {% if request.GET.type == 'house' %}selected{% endif %}>🏠 House</option>
+                        <option value="apartment" {% if request.GET.type == 'apartment' %}selected{% endif %}>🏢 Apartment
+                        </option>
+                        <option value="villa" {% if request.GET.type == 'villa' %}selected{% endif %}>🏡 Villa</option>
+                        <option value="commercial" {% if request.GET.type == 'commercial' %}selected{% endif %}>🏬
+                            Commercial</option>
                     </select>
                 </div>
 
                 <div class="col-lg-3">
                     <select name="price" class="form-select">
                         <option value="">All Price Ranges</option>
-                        <option value="low"    {% if request.GET.price == 'low' %}selected{% endif %}>₹10L - ₹50L</option>
-                        <option value="mid"    {% if request.GET.price == 'mid' %}selected{% endif %}>₹50L - ₹1Cr</option>
-                        <option value="high"   {% if request.GET.price == 'high' %}selected{% endif %}>₹1Cr+</option>
+                        <option value="low" {% if request.GET.price == 'low' %}selected{% endif %}>₹10L - ₹50L</option>
+                        <option value="mid" {% if request.GET.price == 'mid' %}selected{% endif %}>₹50L - ₹1Cr</option>
+                        <option value="high" {% if request.GET.price == 'high' %}selected{% endif %}>₹1Cr+</option>
                     </select>
                 </div>
 
@@ -68,7 +67,8 @@
 <section class="py-3 bg-light">
     <div class="container">
         <p class="text-muted mb-0">
-            Showing <strong>{{ properties|length }}</strong> properties
+            Showing <strong>{{ properties.start_index }}–{{ properties.end_index }}</strong>
+            of <strong>{{ properties.paginator.count }}</strong> properties
         </p>
     </div>
 </section>
@@ -86,19 +86,18 @@
 
             <div class="col-lg-4 col-md-6">
                 <div class="card border-0 shadow-sm h-100"
-                     style="border-radius: 16px; overflow: hidden; transition: 0.3s;"
-                     onmouseover="this.style.transform='translateY(-8px)'"
-                     onmouseout="this.style.transform='translateY(0)'">
+                    style="border-radius: 16px; overflow: hidden; transition: 0.3s;"
+                    onmouseover="this.style.transform='translateY(-8px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
 
                     <!-- IMAGE -->
                     <div class="position-relative">
                         {% if property.image %}
-                        <img src="{{ property.image.url }}"
-                             class="card-img-top"
-                             style="height: 240px; object-fit: cover;">
+                        <img src="{{ property.image.url }}" class="card-img-top"
+                            style="height: 240px; object-fit: cover;">
                         {% else %}
                         <div class="bg-secondary d-flex align-items-center justify-content-center"
-                             style="height: 240px;">
+                            style="height: 240px;">
                             <span class="text-white fs-1">🏠</span>
                         </div>
                         {% endif %}
@@ -125,15 +124,14 @@
 
                         <!-- FEATURES -->
                         <div class="d-flex justify-content-between text-muted small mb-4"
-                             style="border-top: 1px solid #f0f0f0; padding-top: 12px;">
+                            style="border-top: 1px solid #f0f0f0; padding-top: 12px;">
                             <span>🛏 {{ property.bedrooms }} Beds</span>
                             <span>🛁 {{ property.bathrooms }} Baths</span>
                             <span>📐 {{ property.area }} sqft</span>
                         </div>
 
                         <!-- BUTTON -->
-                        <a href="/property/{{ property.id }}/"
-                           class="btn btn-dark w-100 rounded-3">
+                        <a href="/property/{{ property.id }}/" class="btn btn-dark w-100 rounded-3">
                             View Details →
                         </a>
 
@@ -145,6 +143,45 @@
             {% endfor %}
 
         </div>
+
+        <!-- PAGINATION -->
+        {% if properties.has_other_pages %}
+        <div class="d-flex justify-content-center mt-5">
+            <nav>
+                <ul class="pagination pagination-lg gap-1">
+
+                    {% if properties.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link rounded-3 border-0 text-dark fw-500"
+                            href="?page={{ properties.previous_page_number }}&search={{ request.GET.search }}&type={{ request.GET.type }}&price={{ request.GET.price }}">
+                            ← Prev
+                        </a>
+                    </li>
+                    {% endif %}
+
+                    {% for num in properties.paginator.page_range %}
+                    <li class="page-item {% if properties.number == num %}active{% endif %}">
+                        <a class="page-link rounded-3 border-0 {% if properties.number == num %}bg-dark text-white{% else %}text-dark{% endif %}"
+                            href="?page={{ num }}&search={{ request.GET.search }}&type={{ request.GET.type }}&price={{ request.GET.price }}">
+                            {{ num }}
+                        </a>
+                    </li>
+                    {% endfor %}
+
+                    {% if properties.has_next %}
+                    <li class="page-item">
+                        <a class="page-link rounded-3 border-0 text-dark"
+                            href="?page={{ properties.next_page_number }}&search={{ request.GET.search }}&type={{ request.GET.type }}&price={{ request.GET.price }}">
+                            Next →
+                        </a>
+                    </li>
+                    {% endif %}
+
+                </ul>
+            </nav>
+        </div>
+        {% endif %}
+        <!-- END PAGINATION -->
 
         {% else %}
 
@@ -163,8 +200,7 @@
 
 
 <!-- CTA -->
-<section class="py-5 text-white text-center"
-         style="background: linear-gradient(135deg, #2563EB, #1D4ED8);">
+<section class="py-5 text-white text-center" style="background: linear-gradient(135deg, #2563EB, #1D4ED8);">
     <div class="container">
         <h3 class="fw-bold mb-2">Can't Find What You're Looking For?</h3>
         <p class="mb-4">Contact our agents and we'll help you find your dream property.</p>
