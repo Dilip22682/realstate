@@ -143,12 +143,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
-
-# STATIC_URL = 'static/'
-    
+# STATIC_URL = 'static/'    
 # MEDIA_URL = '/media/'
 # MEDIA_ROOT = BASE_DIR / 'media'
- 
+
+
 # STATIC FILES
 # STATIC_URL   = '/static/'
 # STATIC_ROOT  = os.path.join(BASE_DIR, 'staticfiles')
@@ -157,15 +156,15 @@ USE_TZ = True
 
  
 # Change STATIC_ROOT from /var/data/... to this:
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-# ✅ Static files
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = '/static/'
-
 if os.environ.get('RENDER'):
-    STATIC_ROOT = '/var/data/staticfiles'
+    MEDIA_ROOT = '/var/data/media'
 else:
     STATICFILES_DIRS = [BASE_DIR / 'static']
     STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 
 # ✅ Media files
 MEDIA_URL = '/media/'
@@ -177,6 +176,5 @@ else:
 # MEDIA FILES
 MEDIA_URL  = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 
 AUTH_USER_MODEL = 'realapp.User'
