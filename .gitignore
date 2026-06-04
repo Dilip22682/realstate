@@ -13,7 +13,7 @@ env/
 # Django
 *.sqlite3
 *.log
-media/
+
 
 # Environment Variables
 .env
@@ -22,4 +22,4 @@ media/
 .DS_Store
 
 # Static files collected
-staticfiles/
+ 

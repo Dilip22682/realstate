@@ -107,7 +107,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': DB_PATH,
     }
-}
+} 
 
 
 # Password validation
