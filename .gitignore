@@ -12,9 +12,6 @@ env/
 
 # Django
 
-*.log
-media/
-
 # Environment Variables
 .env
 
