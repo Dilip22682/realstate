@@ -42,7 +42,7 @@ urlpatterns = [
     path('contact/',contact, name='contact'),
  
     path('about/',about, name='about'),
-    # path('properties/',properties, name='properties'),
+    
 
 path('my-bookings/',my_bookings,name='my_bookings'),
     

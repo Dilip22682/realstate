@@ -8,47 +8,85 @@
 
             <h2 class="text-center mb-4">Register</h2>
 
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.non_field_errors %}
+                        <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
             <form method="POST">
                 {% csrf_token %}
 
                 <div class="mb-3">
-                    <label>Username</label>
+                    <label>Username <small class="text-muted">(e.g. john_doe123)</small></label>
                     {{ form.username }}
+                    {% if form.username.errors %}
+                        <div class="text-danger small mt-1">
+                            {% for error in form.username.errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
 
                 <div class="mb-3">
-                    <label>Email</label>
+                    <label>Email <small class="text-muted">(e.g. john@example.com)</small></label>
                     {{ form.email }}
+                    {% if form.email.errors %}
+                        <div class="text-danger small mt-1">
+                            {% for error in form.email.errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
 
                 <div class="mb-3">
-                    <label>Phone</label>
+                    <label>Phone <small class="text-muted">(e.g. 9876543210)</small></label>
                     {{ form.phone }}
+                    {% if form.phone.errors %}
+                        <div class="text-danger small mt-1">
+                            {% for error in form.phone.errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
 
                 <div class="mb-3">
                     <label>Role</label>
                     {{ form.role }}
+                    {% if form.role.errors %}
+                        <div class="text-danger small mt-1">
+                            {% for error in form.role.errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
 
                 <div class="mb-3">
-                    <label>Password</label>
+                    <label>Password <small class="text-muted">(min 8 characters, not all numbers)</small></label>
                     <div class="input-group">
                         {{ form.password1 }}
-                        <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('id_password1', this)">
+                        <button type="button" class="btn btn-outline-secondary toggle-password" data-target="id_password1">
                             👁
                         </button>
                     </div>
+                    {% if form.password1.errors %}
+                        <div class="text-danger small mt-1">
+                            {% for error in form.password1.errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
 
                 <div class="mb-3">
-                    <label>Confirm Password</label>
+                    <label>Confirm Password <small class="text-muted">(re-enter same password)</small></label>
                     <div class="input-group">
                         {{ form.password2 }}
-                        <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('id_password2', this)">
+                        <button type="button" class="btn btn-outline-secondary toggle-password" data-target="id_password2">
                             👁
                         </button>
                     </div>
+                    {% if form.password2.errors %}
+                        <div class="text-danger small mt-1">
+                            {% for error in form.password2.errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
 
                 <button type="submit" class="btn btn-primary w-100">Register</button>
@@ -58,19 +96,26 @@
     </div>
 </div>
 
-{% endblock %}
-
-{% block scripts %}
 <script>
-    function togglePassword(fieldId, btn) {
-        const field = document.getElementById(fieldId);
-        if (field.type === "password") {
-            field.type = "text";
-            btn.textContent = "🙈";
-        } else {
-            field.type = "password";
-            btn.textContent = "👁";
-        }
-    }
+    document.querySelectorAll('.toggle-password').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const targetId = btn.getAttribute('data-target');
+            const field = document.getElementById(targetId);
+
+            if (!field) {
+                console.error('Password field not found:', targetId);
+                return;
+            }
+
+            if (field.type === 'password') {
+                field.type = 'text';
+                btn.textContent = '🙈';
+            } else {
+                field.type = 'password';
+                btn.textContent = '👁';
+            }
+        });
+    });
 </script>
+
 {% endblock %}

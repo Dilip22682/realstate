@@ -1,4 +1,7 @@
- body {
+/* ============================================================
+   GLOBAL BASE (applies site-wide by default — light theme)
+   ============================================================ */
+body {
     font-family: 'Poppins', sans-serif;
     background: #F8FAFC;
     color: #1E293B;
@@ -17,7 +20,7 @@
     min-height: 100vh;
 }
 
-/* PROPERTY CARD */
+/* PROPERTY CARD (generic/home page) */
 .property-card {
     border-radius: 20px;
     overflow: hidden;
@@ -33,7 +36,7 @@
     object-fit: cover;
 }
 
-/* FEATURE BOX */
+/* FEATURE BOX (generic/home page) */
 .feature-box {
     transition: 0.3s;
     background: white;
@@ -80,13 +83,10 @@
 }
 
 
-
-
-
-
 /* =============================================
-   UPDATE PROPERTY PAGE — style.css
-   Paste this into your existing style.css
+   UPDATE PROPERTY PAGE
+   Scoped to .up-wrapper instead of body, so it
+   no longer overrides the global body style.
 ============================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap');
@@ -105,22 +105,17 @@
   --success:    #2d6a4f;
 }
 
-/* ── RESET ── */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  background-color: var(--paper);
-  font-family: 'DM Sans', sans-serif;
-  color: var(--ink);
-  min-height: 100vh;
-}
-
 /* ── LAYOUT ── */
 .up-wrapper {
   min-height: 100vh;
   display: grid;
   grid-template-columns: 380px 1fr;
+  background-color: var(--paper);
+  font-family: 'DM Sans', sans-serif;
+  color: var(--ink);
 }
+
+.up-wrapper * { box-sizing: border-box; }
 
 /* =============================================
    SIDEBAR
@@ -360,7 +355,7 @@ body {
   flex-shrink: 0;
 }
 
-.section-title {
+.up-wrapper .section-title {
   font-family: 'Cormorant Garamond', serif;
   font-size: 22px;
   font-weight: 400;
@@ -586,23 +581,16 @@ body {
   .field-row.cols-3     { grid-template-columns: 1fr; }
 }
 
- 
 
-
-/* ABOUT PAGE */
-
- /* ============================================================
-   EstateHub — Premium Real Estate Platform
-   style.css
+/* ============================================================
+   ABOUT PAGE
    Aesthetic: Luxury Editorial — Dark slate & warm gold
    Fonts: Playfair Display (headings) + DM Sans (body)
+   Scoped to .about-page instead of body, so it no
+   longer overrides the global site theme.
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
-
-/* ============================================================
-   CSS VARIABLES
-   ============================================================ */
 
 :root {
   --clr-bg:          #0d1117;
@@ -631,21 +619,7 @@ body {
   --transition:      0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* ============================================================
-   GLOBAL RESET & BASE
-   ============================================================ */
-
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
+.about-page {
   font-family: var(--ff-body);
   background-color: var(--clr-bg);
   color: var(--clr-text);
@@ -654,12 +628,16 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-img {
+.about-page *, .about-page *::before, .about-page *::after {
+  box-sizing: border-box;
+}
+
+.about-page img {
   display: block;
   max-width: 100%;
 }
 
-a {
+.about-page a {
   text-decoration: none;
   color: inherit;
   transition: color var(--transition);
@@ -680,7 +658,6 @@ a {
   overflow: hidden;
 }
 
-/* Subtle grain texture overlay */
 .about-hero::before {
   content: '';
   position: absolute;
@@ -690,7 +667,6 @@ a {
   z-index: 0;
 }
 
-/* Decorative gold accent line */
 .about-hero::after {
   content: '';
   position: absolute;
@@ -703,7 +679,7 @@ a {
 }
 
 .hero-overlay {
-  display: none; /* handled via gradient above */
+  display: none;
 }
 
 .about-hero .container {
@@ -711,7 +687,6 @@ a {
   z-index: 1;
 }
 
-/* Hero Badge */
 .hero-badge {
   display: inline-block;
   font-family: var(--ff-body);
@@ -727,7 +702,6 @@ a {
   animation: fadeSlideUp 0.7s ease both;
 }
 
-/* Hero Heading */
 .hero-heading {
   font-family: var(--ff-display);
   font-size: clamp(2.8rem, 5.5vw, 5rem);
@@ -745,7 +719,6 @@ a {
   font-weight: 400;
 }
 
-/* Hero Description */
 .hero-description {
   font-size: 1.08rem;
   font-weight: 300;
@@ -755,7 +728,6 @@ a {
   animation: fadeSlideUp 0.7s 0.2s ease both;
 }
 
-/* Hero Buttons */
 .hero-buttons {
   display: flex;
   gap: 1rem;
@@ -878,7 +850,6 @@ a {
   pointer-events: none;
 }
 
-/* About Image */
 .about-image-wrapper {
   position: relative;
 }
@@ -896,7 +867,6 @@ a {
   filter: brightness(0.95) saturate(1);
 }
 
-/* Gold accent frame */
 .about-image-wrapper::after {
   content: '';
   position: absolute;
@@ -910,7 +880,6 @@ a {
   z-index: -1;
 }
 
-/* Section Tag */
 .section-tag {
   display: inline-block;
   font-size: 0.7rem;
@@ -921,8 +890,7 @@ a {
   margin-bottom: 0.9rem;
 }
 
-/* Section Title */
-.section-title {
+.about-page .section-title {
   font-family: var(--ff-display);
   font-size: clamp(1.9rem, 3.2vw, 2.8rem);
   font-weight: 700;
@@ -931,8 +899,7 @@ a {
   margin-bottom: 1.2rem;
 }
 
-/* Section Text */
-.section-text {
+.about-page .section-text {
   font-size: 1rem;
   font-weight: 300;
   color: var(--clr-muted);
@@ -940,8 +907,7 @@ a {
   margin-bottom: 2rem;
 }
 
-/* Feature Box */
-.feature-box {
+.about-page .feature-box {
   display: flex;
   align-items: flex-start;
   gap: 1.1rem;
@@ -953,7 +919,7 @@ a {
   transition: border-color var(--transition), transform var(--transition);
 }
 
-.feature-box:hover {
+.about-page .feature-box:hover {
   border-color: rgba(201, 168, 76, 0.35);
   transform: translateX(6px);
 }
@@ -974,7 +940,7 @@ a {
   margin-top: 2px;
 }
 
-.feature-box h5 {
+.about-page .feature-box h5 {
   font-family: var(--ff-body);
   font-size: 0.98rem;
   font-weight: 600;
@@ -982,7 +948,7 @@ a {
   margin-bottom: 0.25rem;
 }
 
-.feature-box p {
+.about-page .feature-box p {
   font-size: 0.88rem;
   color: var(--clr-muted);
   margin: 0;
@@ -1000,7 +966,6 @@ a {
   overflow: hidden;
 }
 
-/* Subtle decorative pattern */
 .team-section::before {
   content: '';
   position: absolute;
@@ -1029,7 +994,6 @@ a {
   z-index: 1;
 }
 
-/* Team Card */
 .team-card {
   background: var(--clr-bg);
   border: 1px solid var(--clr-border);
@@ -1060,11 +1024,6 @@ a {
   transform: scale(1.04);
 }
 
-/* Image zoom contained */
-.team-card {
-  overflow: hidden;
-}
-
 .team-content {
   padding: 1.4rem 1.6rem 1.6rem;
   border-top: 1px solid var(--clr-border);
@@ -1072,7 +1031,6 @@ a {
   position: relative;
 }
 
-/* Gold underline accent on hover */
 .team-content::before {
   content: '';
   position: absolute;
@@ -1121,7 +1079,7 @@ a {
 }
 
 /* ============================================================
-   RESPONSIVE
+   RESPONSIVE (about page)
    ============================================================ */
 
 @media (max-width: 991.98px) {
@@ -1176,10 +1134,6 @@ a {
     font-size: 1.7rem;
   }
 
-  .section-title {
-    font-size: 1.75rem;
-  }
-
   .team-card img {
     height: 260px;
   }
@@ -1192,9 +1146,11 @@ a {
 }
 
 
-/* Properties.html */
+/* ============================================================
+   PROPERTIES PAGE
+   Scoped to .properties-page instead of body.
+   ============================================================ */
 
-/* ── CSS VARIABLES ── */
 :root {
     --cream: #f7f4ef;
     --charcoal: #1c1c1e;
@@ -1204,13 +1160,11 @@ a {
     --border: #e8e3db;
 }
 
-/* ── BASE ── */
-body {
+.properties-page {
     background: var(--cream);
     font-family: 'DM Sans', sans-serif;
 }
 
-/* ── SEARCH BAR ── */
 .search-section {
     background: var(--charcoal);
     padding: 2.5rem 0;
@@ -1295,7 +1249,7 @@ body {
     padding-bottom: 4rem;
 }
 
-.property-card {
+.properties-page .property-card {
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 14px;
@@ -1306,12 +1260,11 @@ body {
     flex-direction: column;
 }
 
-.property-card:hover {
+.properties-page .property-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.10);
 }
 
-/* ── CARD IMAGE ── */
 .card-img-wrap {
     position: relative;
     height: 210px;
@@ -1326,11 +1279,10 @@ body {
     transition: transform 0.4s ease;
 }
 
-.property-card:hover .card-img-wrap img {
+.properties-page .property-card:hover .card-img-wrap img {
     transform: scale(1.05);
 }
 
-/* ── BADGES ── */
 .badge-type {
     position: absolute;
     top: 12px;
@@ -1359,7 +1311,6 @@ body {
     border-radius: 20px;
 }
 
-/* ── CARD BODY ── */
 .card-body-custom {
     padding: 1.25rem 1.4rem 1rem;
     flex: 1;
@@ -1409,7 +1360,6 @@ body {
     gap: 4px;
 }
 
-/* ── VIEW BUTTON ── */
 .btn-view {
     display: block;
     text-align: center;
@@ -1430,7 +1380,6 @@ body {
     color: #fff;
 }
 
-/* ── EMPTY STATE ── */
 .empty-state {
     text-align: center;
     padding: 5rem 1rem;
@@ -1449,7 +1398,6 @@ body {
     margin-bottom: 0.4rem;
 }
 
-/* ── PAGINATION ── */
 .pagination .page-link {
     color: var(--charcoal);
     border-color: var(--border);
@@ -1471,7 +1419,6 @@ body {
     color: var(--charcoal);
 }
 
-/* ── FADE-IN ANIMATION ── */
 .fade-up {
     opacity: 0;
     transform: translateY(20px);
@@ -1485,7 +1432,6 @@ body {
     }
 }
 
-/* Card stagger delays (up to 12 cards) */
 .card-anim-1  { animation-delay: 0ms; }
 .card-anim-2  { animation-delay: 100ms; }
 .card-anim-3  { animation-delay: 200ms; }
@@ -1498,3 +1444,334 @@ body {
 .card-anim-10 { animation-delay: 900ms; }
 .card-anim-11 { animation-delay: 1000ms; }
 .card-anim-12 { animation-delay: 1100ms; }
+
+
+/* ============================================================
+   HOME PAGE — "Blueprint" concept
+   Architectural blueprint aesthetic: navy grid, dashed
+   dimension lines, brass accent, mono annotation labels.
+   Scoped to .home-page so it can't leak into other pages.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+.home-page {
+  --hp-navy: #0f2740;
+  --hp-navy-2: #16334f;
+  --hp-line: #6fa8c9;
+  --hp-paper: #f3efe6;
+  --hp-ink: #1c2126;
+  --hp-muted: #7c8a95;
+  --hp-brass: #c08a3e;
+  --hp-brass-light: #d9ab5f;
+  --hp-mono: 'IBM Plex Mono', monospace;
+  font-family: 'DM Sans', sans-serif;
+  background: var(--hp-paper);
+  color: var(--hp-ink);
+}
+
+.home-page a { text-decoration: none; }
+
+/* HERO */
+.hp-hero {
+  position: relative;
+  background: var(--hp-navy);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  padding: 120px 0 100px;
+}
+
+.hp-hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(111,168,201,0.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(111,168,201,0.10) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+}
+
+.hp-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--hp-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  color: var(--hp-line);
+  margin-bottom: 1.6rem;
+}
+
+.hp-eyebrow-tag {
+  border: 1px solid var(--hp-line);
+  color: var(--hp-line);
+  padding: 2px 8px;
+  border-radius: 2px;
+  font-size: 0.72rem;
+}
+
+.hp-hero-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: clamp(2.6rem, 5vw, 4.4rem);
+  line-height: 1.08;
+  color: #f6f2ea;
+  margin-bottom: 1.4rem;
+  position: relative;
+  z-index: 1;
+}
+
+.hp-hero-title em {
+  font-style: italic;
+  color: var(--hp-brass-light);
+}
+
+.hp-hero-desc {
+  font-size: 1.05rem;
+  font-weight: 300;
+  color: rgba(246,242,234,0.72);
+  max-width: 480px;
+  margin-bottom: 2.2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.hp-hero-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.hp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 30px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  transition: all 0.25s ease;
+}
+
+.hp-btn-brass {
+  background: var(--hp-brass);
+  color: var(--hp-navy);
+  border: 1px solid var(--hp-brass);
+}
+.hp-btn-brass:hover {
+  background: var(--hp-brass-light);
+  transform: translateY(-2px);
+  color: var(--hp-navy);
+}
+
+.hp-btn-outline {
+  border: 1px solid rgba(246,242,234,0.35);
+  color: #f6f2ea;
+}
+.hp-btn-outline:hover {
+  border-color: var(--hp-brass-light);
+  color: var(--hp-brass-light);
+}
+
+/* Blueprint stat card in hero */
+.hp-blueprint-card {
+  position: relative;
+  z-index: 1;
+  background: var(--hp-navy-2);
+  border: 1px solid rgba(111,168,201,0.3);
+  border-radius: 8px;
+  padding: 8px 0;
+}
+
+.hp-blueprint-card-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 28px;
+  border-bottom: 1px dashed rgba(111,168,201,0.25);
+  font-family: var(--hp-mono);
+}
+
+.hp-blueprint-card-row:last-child { border-bottom: none; }
+
+.hp-blueprint-card-row span {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--hp-line);
+}
+
+.hp-blueprint-card-row strong {
+  font-size: 1.3rem;
+  color: #f6f2ea;
+  font-weight: 600;
+}
+
+/* SEARCH — title block style, overlaps hero */
+.hp-search {
+  padding: 0;
+  margin-top: -46px;
+  position: relative;
+  z-index: 2;
+}
+
+.hp-search-panel {
+  background: #fff;
+  border: 1px solid #e4ddcf;
+  border-radius: 10px;
+  box-shadow: 0 24px 60px rgba(15,39,64,0.14);
+  padding: 28px 32px 24px;
+}
+
+.hp-search-label {
+  font-family: var(--hp-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: var(--hp-muted);
+  margin-bottom: 16px;
+}
+
+.home-page .hp-search-panel .form-control,
+.home-page .hp-search-panel .form-select {
+  border: 1.5px solid #e4ddcf;
+  border-radius: 6px;
+  padding: 12px 14px;
+}
+
+.home-page .hp-search-panel .form-control:focus,
+.home-page .hp-search-panel .form-select:focus {
+  border-color: var(--hp-brass);
+  box-shadow: 0 0 0 3px rgba(192,138,62,0.12);
+}
+
+.hp-search-btn {
+  background: var(--hp-navy);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.hp-search-btn:hover { background: var(--hp-navy-2); color: #fff; }
+
+/* WHY CHOOSE US */
+.hp-why { padding: 130px 0 90px; }
+
+.hp-section-head { margin-bottom: 3rem; }
+
+.hp-section-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  color: var(--hp-navy);
+  margin-top: 0.6rem;
+}
+
+.hp-feature-card {
+  border: 1px solid #e4ddcf;
+  border-radius: 10px;
+  padding: 2rem 1.6rem;
+  height: 100%;
+  background: #fff;
+  transition: transform 0.25s, border-color 0.25s;
+  text-align: center;
+}
+
+.hp-feature-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--hp-brass);
+}
+
+.hp-feature-icon {
+  width: 52px; height: 52px;
+  border: 1.5px dashed var(--hp-line);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem;
+  margin: 0 auto 1.2rem;
+  color: var(--hp-navy);
+}
+
+.hp-feature-card h5 { font-weight: 700; color: var(--hp-ink); }
+.hp-feature-card p { color: var(--hp-muted); font-size: 0.9rem; margin: 0; }
+
+/* STATS */
+.hp-stats {
+  background: var(--hp-navy);
+  padding: 90px 0;
+}
+
+.hp-stat { text-align: center; padding: 0 12px; }
+
+.hp-stat-num {
+  font-family: var(--hp-mono);
+  font-size: 2.6rem;
+  font-weight: 600;
+  color: var(--hp-brass-light);
+}
+
+.hp-stat-label {
+  font-family: var(--hp-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(246,242,234,0.6);
+  margin-top: 0.5rem;
+}
+
+/* TESTIMONIALS */
+.hp-testimonials { padding: 110px 0; background: var(--hp-paper); }
+
+.hp-testimonial-card {
+  background: #fff;
+  border: 1px solid #e4ddcf;
+  border-radius: 10px;
+  padding: 2rem;
+  height: 100%;
+}
+
+.hp-testimonial-card p {
+  font-style: italic;
+  color: var(--hp-ink);
+  font-size: 0.98rem;
+  line-height: 1.7;
+}
+
+.hp-testimonial-name {
+  font-family: var(--hp-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  color: var(--hp-muted);
+  margin-top: 1rem;
+  text-transform: uppercase;
+}
+
+/* CTA */
+.hp-cta {
+  background: linear-gradient(135deg, var(--hp-navy), var(--hp-navy-2));
+  padding: 100px 0;
+  text-align: center;
+}
+
+.hp-cta h2 {
+  font-family: 'Playfair Display', serif;
+  color: #f6f2ea;
+  font-weight: 700;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  margin-bottom: 1rem;
+}
+
+.hp-cta p {
+  color: rgba(246,242,234,0.7);
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 991.98px) {
+  .hp-hero { min-height: auto; padding: 140px 0 80px; }
+  .hp-search { margin-top: -30px; }
+  .hp-blueprint-card { margin-top: 2.5rem; }
+}
